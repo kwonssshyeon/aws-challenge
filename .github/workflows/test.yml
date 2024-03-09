@@ -1,0 +1,25 @@
+name: test
+on: pull_request
+jobs:
+    test:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Node.js setup
+              uses: actions/setup-node@v3
+              with:
+                node-version: "18"
+            - name: Install npm packages
+              run: npm ci
+            - name: install and run redis-server
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y redis-server
+                redis-server --daemonize yes --port 6380
+            - name: Run tets
+              run: npm run test:ci
+
+            - name: test build
+              run: npm run build
+              

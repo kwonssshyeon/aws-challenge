@@ -18,7 +18,12 @@ beforeAll(async () => {
 
 beforeEach(async () => {
     await client.flushDb();
-})
+});
+
+afterAll(async () => {
+    await client.flushDb();
+    await client.quit();
+});
 
 describe("POST /messages", () => {
     it("response with a success message", async () => {
