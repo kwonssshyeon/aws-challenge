@@ -1,0 +1,9 @@
+config:
+  target: http://localhost:4000
+  phases:
+    - duration: 5 # n초 동안 senarios를 보냄
+      arrivalRate: 1000 # 몇개의 별도의 요청을 보낼건지
+scenarios:
+  - flow:
+    - get:
+        url: "/messages"
