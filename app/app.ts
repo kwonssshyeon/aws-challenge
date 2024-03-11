@@ -19,9 +19,10 @@ export const createApp = (client: RedisClient) => {
   }
 
   app.get("/fibonacci/:n",(req, res)=>{
+    console.log(process.env.pm_id)
     const n = parseInt(req.params.n,10)
     const result = fibonacci(n);
-    res.send(`Fibonacci${n}=${result}`);
+    res.send(`Fibonacci[${n}] = ${result}`);
   })
 
   app.post("/messages", async (request, response) => {
