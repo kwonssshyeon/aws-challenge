@@ -1,0 +1,5 @@
+.env
+.github
+build
+github_team_workflows
+node_modules

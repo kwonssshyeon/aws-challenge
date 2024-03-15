@@ -10,7 +10,7 @@ export const createApp = (client: RedisClient) => {
   app.use(express.json());
 
   app.get("/", (request, response) => {
-    response.status(200).send("hello from express, deploy on AWS Lightsail with solo workflow");
+    response.status(200).send("hello from express, deploy on AWS Lightsail with solo workflow !");
   });
 
   function fibonacci(n:number):number{
