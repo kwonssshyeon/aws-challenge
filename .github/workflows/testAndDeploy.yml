@@ -9,46 +9,7 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
-            - name: Node.js setup
-              uses: actions/setup-node@v3
-              with:
-                node-version: "18"
-            - name: Install npm packages
-              run: npm ci
-            - name: install and run redis-server
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y redis-server
-                redis-server --daemonize yes --port 6380
-            - name: Run tets
-              run: npm run test:ci
+            - name: Build and test with Docker Compose
+              run: docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
-            - name: test build
-              run: npm run build
 
-    deploy:
-        runs-on: ubuntu-latest
-        needs: test
-        steps:
-            - name: Set up SSH
-              run: |
-                mkdir -p ~/.ssh/
-                echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-
-            - name: Set up known hosts
-              run: |
-                mkdir -p ~/.ssh/
-                echo "${{secrets.SSH_KNOWN_HOST}}" >> ~/.ssh/known_hosts
-                chmod 644 ~/.ssh/known_hosts
-
-            - name: SSH and deploy
-              run: |
-                ssh ${{secrets.SSH_USERNAME}}@${{secrets.SSH_PUBLIC_IP}} "
-                    cd aws-callenge
-                    git pull || exit 1
-                    npm install || exit 1
-                    npm run build || exit 1
-                    sudo pm2 reload all
-                    exit
-                "
