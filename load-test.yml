@@ -1,8 +1,8 @@
 config:
-  target: https://aws-challenge.shop
+  target: http://localhost
   phases:
     - duration: 5 # n초 동안 senarios를 보냄
-      arrivalRate: 30 # 1초동안 몇개의 별도의 요청을 보낼건지
+      arrivalRate: 20 # 1초동안 몇개의 별도의 요청을 보낼건지
 scenarios:
   - flow:
     - get:
